@@ -1,0 +1,221 @@
+﻿@page "/"
+@using CVTemplate.Model;
+@inject NavigationManager nv;
+@inject DataService DataService
+@inject IJSRuntime js
+@inject CloudFiles cloudFiles
+
+<HeadContent>
+    <CloudHead Title="Index" />
+</HeadContent>
+
+<section>
+    <div class="form">
+        <div class="form-personal">
+            <div class="form-personal-title" @onclick="()=>PersonalCheck=!PersonalCheck">
+                <h1>Personal details</h1>
+                <div>
+                    <button>
+                        <CVTemplate.Shared.Assets.Arrow />
+                    </button>
+                </div>
+            </div>
+            <div class="form-personal-info @(PersonalCheck?"":"--hide")">
+                <div>
+                    <div class="photo">
+                        <span>
+                            Photo
+                        </span>
+                        <InputFile OnChange="OnFileSelected" hidden id="photo" />
+                        <label class="_photo" for="photo" style="@(string.IsNullOrEmpty(Data.Personal.photo)? "": $"background-image:url({Data.Personal.photo});backgroundColor:none")">
+                            @if (string.IsNullOrEmpty(Data.Personal.photo))
+                            {
+                                <CVTemplate.Shared.Assets.Camera />
+                            }
+                        </label>
+                    </div>
+                    <div class="--input Gname">
+                        <span>
+                            Name
+                        </span>
+                        <input spellcheck="false" type="text" @bind-value="@Data.Personal.Name" />
+                    </div>
+                    <div class="--input Fname">
+                        <span>
+                            Job Title
+                        </span>
+                        <input spellcheck="false" type="text" @bind-value="@Data.Personal.Position" />
+                    </div>
+                    <div class="--input Email">
+                        <span>
+                            Email address
+                        </span>
+                        <input spellcheck="false" type="text" @bind-value="@Data.Personal.Email" />
+                    </div>
+                </div>
+                <div class="--input">
+                    <span>Profile</span>
+                    <textarea spellcheck="false" @bind="@Data.Personal.Headline"></textarea>
+                </div>
+                <div class="--input">
+                    <span>Phone number</span>
+                    <input spellcheck="false" type="text" @bind-value="@Data.Personal.PhoneNumber" />
+                </div>
+                <div class="--input">
+                    <span>Address</span>
+                    <input spellcheck="false" type="text" @bind-value="@Data.Personal.Address" />
+                </div>
+                @*  <div class="city">
+                <div class="--input">
+                <span>Post Code</span>
+                <input spellcheck="false" type="text" @bind-value="@Personal.PostCode" />
+                </div>
+                <div class="--input">
+                <span>City</span>
+                <input spellcheck="false" type="text" @bind-value="@Personal.City" />
+                </div>
+                </div>*@
+                <div class="--input">
+                    <span>Date of Birth</span>
+                    <input spellcheck="false" type="date" @bind-value="@Data.Personal.DateofBirth" />
+                </div>
+                @*<div class="--input">
+                <span>Place of birth</span>
+                <input spellcheck="false" type="text" @bind-value="@Personal.PalaceofBirth" />
+                </div>*@
+                @* <div class="--input">
+                <span>Gender</span>
+                <div>
+                <select @bind="@Data.Personal.Gender">
+                <option></option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                </select>
+                </div>
+                </div>*@
+                <div class="--input">
+                    <span>Nationality</span>
+                    <input spellcheck="false" type="text" @bind-value="@Data.Personal.Nationality" />
+                </div>
+                <div class="--input">
+                    <span>Website</span>
+                    <input spellcheck="false" type="text" @bind-value="@Data.Personal.Website" />
+                </div>
+            </div>
+        </div>
+        <div class="form-education">
+            <div class="form-education-title" @onclick="()=>EducationCheck=!EducationCheck">
+                <h1>Education</h1>
+                <div>
+                    <button>
+                        <CVTemplate.Shared.Assets.Arrow />
+                    </button>
+                </div>
+            </div>
+            <div class="form-education-info  @(EducationCheck?"":"--hide")">
+                <CascadingValue Value="Data.Educations">
+                    <CVTemplate.Shared.Components.EducationForms />
+                </CascadingValue>
+                <button class="--button _primary _icon" @onclick="NewEducation">
+                    <span>
+                        <CVTemplate.Shared.Assets.Add />
+                    </span>
+                    <span>Add education</span>
+                </button>
+            </div>
+        </div>
+        <div class="form-employment">
+            <div class="form-employment-title" @onclick="()=>EmploymentCheck=!EmploymentCheck">
+                <h1>Employment</h1>
+                <div>
+                    <button>
+                        <CVTemplate.Shared.Assets.Arrow />
+                    </button>
+                </div>
+            </div>
+            <div class="form-employment-info  @(EmploymentCheck?"":"--hide")">
+                <CascadingValue Value="Data.Employees">
+                    <CVTemplate.Shared.Components.EmploymentForms />
+                </CascadingValue>
+                <button class="--button _primary _icon" @onclick="NewEmploye">
+                    <span>
+                        <CVTemplate.Shared.Assets.Add />
+                    </span>
+                    <span>Add employment</span>
+                </button>
+            </div>
+        </div>
+        @*<div class="form-skills">
+        <div class="form-skills-title" @onclick="()=>SkillsCheck=!SkillsCheck">
+        <h1>Skill</h1>
+        <div>
+        <button>
+        <CVTemplate.Shared.Assets.Arrow />
+        </button>
+        </div>
+        </div>
+        <div class="form-skills-info  @(SkillsCheck?"":"--hide")">
+        <CascadingValue Value="Data.Skills">
+        <CVTemplate.Shared.Components.SkillForm />
+        </CascadingValue>
+
+        <button class="--button _primary _icon" @onclick="NewSkill">
+        <span>
+        <CVTemplate.Shared.Assets.Add />
+        </span>
+        <span>Add skill</span>
+        </button>
+        </div>
+        </div>*@
+        <div class="form-languages">
+            <div class="form-languages-title" @onclick="()=>LanguagesCheck=!LanguagesCheck">
+                <h1>Language</h1>
+                <div>
+                    <button>
+                        <CVTemplate.Shared.Assets.Arrow />
+                    </button>
+                </div>
+            </div>
+            <div class="form-languages-info  @(LanguagesCheck?"":"--hide")">
+
+                <CascadingValue Value="Data.Languages">
+                    <CVTemplate.Shared.Components.LanguagesForm />
+                </CascadingValue>
+                <button class="--button _primary _icon" @onclick="NewLanguage">
+                    <span>
+                        <CVTemplate.Shared.Assets.Add />
+                    </span>
+                    <span>Add Language</span>
+                </button>
+            </div>
+        </div>
+        @*    <div class="form-hobbies">
+        <div class="form-hobbies-title" @onclick="()=>HobbiesCheck=!HobbiesCheck">
+        <h1>Hobbies</h1>
+        <div>
+        <button>
+        <CVTemplate.Shared.Assets.Arrow />
+        </button>
+        </div>
+        </div>
+        <div class="form-hobbies-info  @(HobbiesCheck?"":"--hide")">
+        <CascadingValue Value="Data.Hobbies">
+        <CVTemplate.Shared.Components.HobbyForm />
+        </CascadingValue>
+        <button class="--button _primary _icon" @onclick="NewHobby">
+        <span>
+        <CVTemplate.Shared.Assets.Add />
+        </span>
+        <span>Add Hobby</span>
+        </button>
+        </div>
+        </div>*@
+
+        <div class="form-submit">
+            <button class="--button  _secondary" @onclick="Next">
+                @ButtonName
+            </button>
+        </div>
+
+    </div>
+</section>

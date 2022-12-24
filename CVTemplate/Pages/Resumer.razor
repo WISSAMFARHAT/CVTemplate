@@ -1,0 +1,207 @@
+﻿@page "/Resume"
+@using CVTemplate.Model;
+@inject DataService DataService
+@inject IJSRuntime js
+@inject CloudFiles cloudFiles
+
+<HeadContent>
+    <CloudHead Title="Resumer" />
+    <CloudBundle Source="css/pdf.css" />
+</HeadContent>
+
+<section class="header">
+    <div>
+        @if (!Data.IsEmpty)
+        {
+            <button class="--button _primary" @onclick="PrintPDF">
+                Print
+            </button>
+
+            <div>
+                <b>Notes:</b>
+                <ul>
+                    <li>Optimized for the latest version of Microsoft Edge</li>
+                    <li>When print dialog opens, select <b>Microsoft to PDF</b> then click on More Settings:</li>
+                    <li>
+                        <ul>
+                            <li>- Set <b>Color</b> to color</li>
+                            <li>- <b>Untick</b> Headers and Footers</li>
+                            <li>- <b>Tick</b> Background Graphics</li>
+                        </ul>
+                    </li>
+                    <li>And finally click on print to save it as PDF</li>
+                </ul>
+            </div>
+        }
+        else
+        {
+            <button class="--button _primary" @onclick="Fill">
+                Fill Sample Data
+            </button>
+        }
+    </div>
+</section>
+
+@if (!Data.IsEmpty)
+{
+    <div class="formcontent">
+        <div class="pdf">
+            <div class="pdf-left">
+                @if (!string.IsNullOrEmpty(Data.Personal.photo))
+                {
+                    <div class="pdf-left-img">
+                        <img src="@Data.Personal.photo" alt="profile" />
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(Data.Personal.DateofBirth.ToString()) || !string.IsNullOrEmpty(Data.Personal.Nationality)
+               || !string.IsNullOrEmpty(Data.Personal.Address) || Data.Languages.Count != 0)
+                {
+                    <br />
+                    <div class="pdf-left-info">
+                        <p>PERSONAL INFORMATION</p>
+                        @if (!string.IsNullOrEmpty(Data.Personal.DateofBirth.ToString()))
+                        {
+                            <br />
+                            <div>
+                                <span>Date of Birth: </span>
+                                <span>@Data.Personal.DateofBirth.Value.ToString("dd/MM/yyyy")</span>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Data.Personal.Nationality))
+                        {
+                            <br />
+                            <div>
+                                <span>Nationality: </span>
+                                <span>@Data.Personal.Nationality</span>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Data.Personal.Address))
+                        {
+                            <br />
+                            <div>
+                                <span>Address: </span>
+                                <span>@Data.Personal.Address</span>
+                            </div>
+                        }
+                        @if (Data.Languages.Count != 0)
+                        {
+                            <br />
+                            <div>
+                                <span>Languages: </span>
+                                @foreach (LanguagesModel lang in Data.Languages)
+                                {
+                                    <span>@lang.Title</span>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(Data.Personal.PhoneNumber) || !string.IsNullOrEmpty(Data.Personal.Email))
+                {
+                    <br />
+                    <div class="pdf-left-contact">
+                        <p>CONTACT</p>
+                        @if (!string.IsNullOrEmpty(Data.Personal.PhoneNumber))
+                        {
+                            <br />
+                            <div>
+                                <span>Phone Number: </span>
+                                <span>@Data.Personal.PhoneNumber</span>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Data.Personal.Email))
+                        {
+                            <br />
+                            <div>
+                                <span>Email: </span>
+                                <span>@Data.Personal.Email</span>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="pdf-right">
+                <div class="pdf-right-info">
+                    @if (!string.IsNullOrEmpty(Data.Personal.Name))
+                    {
+                        <h1>@Data.Personal.Name</h1>
+                    }
+                    @if (!string.IsNullOrEmpty(Data.Personal.Position))
+                    {
+                        <h4>@Data.Personal.Position</h4>
+                    }
+                </div>
+                @if (!string.IsNullOrEmpty(Data.Personal.Headline))
+                {
+                    <div class="pdf-right-section pdf-right-profile">
+                        <p class="title">Profile</p>
+
+                        <span>
+                            @(
+                                (MarkupString)Data.Personal.Headline.Replace("\n", "<br />")
+                                )
+                        </span>
+                    </div>
+                }
+                @if (Data.Educations.Count != 0)
+                {
+                    <div class="pdf-right-section pdf-right-education">
+                        <p class="title">Education</p>
+
+                        @foreach (EducationModel education in Data.Educations)
+                        {
+                            <div>
+                                <div>
+                                    @if (!string.IsNullOrEmpty(education.Title))
+                                    {
+                                        <p class="name">@education.Title</p>
+                                    }
+                                    @if (education.Started.HasValue || education.EndDate.HasValue)
+                                    {
+                                        <p class="date">
+                                            @(
+                                                !string.IsNullOrEmpty(education.Started.ToString()) ? education.Started.Value.Year : ""
+                                                )@(
+                                               !string.IsNullOrEmpty(education.EndDate.ToString()) ? education.Present ? "- Present" : -education.EndDate.Value.Year : education.Present ? "- Present" : ""
+                                               )
+                                        </p>
+                                    }
+                                    <p class="description">@((MarkupString)education.Description.Replace("\n", "<br />"))</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                @if (Data.Employees.Count != 0)
+                {
+                    <div class="pdf-right-section pdf-right-experience">
+                        <p class="title">WORK EXPERIENCE</p>
+
+                        @foreach (EmployeModel employee in Data.Employees)
+                        {
+                            <div>
+                                <div>
+                                    @if (!string.IsNullOrEmpty(employee.Title))
+                                    {
+                                        <p class="name">@employee.Title</p>
+                                    }
+                                    @if (employee.Started.HasValue || employee.EndDate.HasValue)
+                                    {
+                                        <p class="date">
+                                            @(
+                                                !string.IsNullOrEmpty(employee.Started.ToString()) ? employee.Started.Value.Year : ""
+                                                )@(
+                                               !string.IsNullOrEmpty(employee.EndDate.ToString()) ? employee.Present ? "- Present" : -employee.EndDate.Value.Year : employee.Present ? "- Present" : ""
+                                               )
+                                        </p>
+                                    }
+                                    <p class="description">@((MarkupString)employee.Description.Replace("\n", "<br />"))</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,26 @@
+﻿@using CVTemplate.Model;
+@foreach (HobbyModel hobby in HobbyList)
+{
+    <div class="skills">
+        <div class="--input">
+            <span>Hobby</span>
+            <input spellcheck="false" type="text" @bind-value="hobby.Title" />
+        </div>
+        <div class="forms-done">
+            <button class="--button _primary _icon" @onclick="()=>RemoveHobby(hobby.ID)">
+                <span>
+                    <CVTemplate.Shared.Assets.Delete />
+                </span>
+            </button>
+         @*   <button class="--button _secondary _icon" @onclick="()=>this.StateHasChanged()">
+                <span>
+                    <cvtemplate.shared.assets.correct />
+                </span>
+                <span>
+                    done
+                </span>
+            </button>*@
+        </div>
+    </div>
+}
+

@@ -1,0 +1,65 @@
+﻿@using CVTemplate.Model;
+
+@if (EducationList != null)
+{
+    @foreach (EducationModel education in EducationList)
+    {
+        <div class="forms">
+            <div class="--input">
+                <span>Education</span>
+                <input spellcheck="false" type="text" @bind-value="education.Title" />
+            </div>
+            <div class="_split" style="--c:2;">
+                <div class="--input">
+                    <span>School</span>
+                    <input spellcheck="false" type="text" @bind-value="education.School" />
+                </div>
+                <div class="--input">
+                    <span>City</span>
+                    <input spellcheck="false" type="text" @bind-value="education.City" />
+                </div>
+            </div>
+            <div class="_split" style="--c:2">
+                <div class="--input">
+                    <span>
+                        Start date
+                    </span>
+                    <input spellcheck="false" type="date" @bind-value="education.Started" />
+                </div>
+                <div class="--input _present">
+                    <div>
+                        <span>
+                            End date
+                        </span>
+                        <div>
+                            <input spellcheck="false" type="checkbox" id="@education.CheckInput" @onchange="((e)=>CheckChange(e,education.ID))">
+                            <label for="@education.CheckInput">Present</label>
+                        </div>
+                    </div>
+                    <input spellcheck="false" type="date" @bind-value="education.EndDate" />
+                </div>
+            </div>
+            <div class="--input">
+                <span>Description</span>
+                <textarea @bind="education.Description"></textarea>
+            </div>
+            <div class="forms-done">
+                <button class="--button _primary _icon" @onclick="()=>RemoveEducation(education.ID)">
+                    <span>
+                        <CVTemplate.Shared.Assets.Delete />
+                    </span>
+                </button>
+              @*  <button class="--button _secondary _icon" @onclick="()=>this.StateHasChanged()">
+                    <span>
+                        <cvtemplate.shared.assets.correct />
+                    </span>
+                    <span>
+                        done
+                    </span>
+                </button>*@
+            </div>
+        </div>
+    }
+}
+
+

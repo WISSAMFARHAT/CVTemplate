@@ -1,0 +1,27 @@
+{
+  "builds": [
+    {
+      "name": "dev",
+      "js": {
+        "declaration": false,
+        "webClean": true
+      }
+    }
+  ],
+  "files": [
+    {
+      "output": "wwwroot/css/site.css",
+      "input": "src/css/site.less"
+    },
+    {
+      "output": "wwwroot/css/pdf.css",
+      "input": "src/css/pdf.less"
+    }
+  ],
+  "images": [
+    {
+      "output": "wwwroot/img",
+      "input": "src/img/**"
+    }
+  ]
+}

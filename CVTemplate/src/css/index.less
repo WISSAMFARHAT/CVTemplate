@@ -1,0 +1,291 @@
+﻿@import 'Common/variable.less';
+
+
+main {
+    section {
+        .form {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            padding-block: 10px;
+            width: 100%;
+            max-width: var(--maxWidth);
+
+            > div {
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                align-items: start;
+                border-bottom: 1px solid rgb(228 228 231/1);
+                padding-block: 15px;
+
+
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                &:has(div.--hide) {
+
+                    div {
+                        svg {
+                            transform: rotate(0deg) !important;
+                        }
+                    }
+                }
+
+                > div:first-child {
+                    display: flex;
+                    align-items: center;
+                    padding-block: 5px;
+                    justify-content: space-between;
+                    width: 100%;
+
+                    h1 {
+                        font-size: 1.5rem;
+                        text-transform: none;
+                        width: inherit;
+                        cursor: pointer;
+                        outline: none;
+                    }
+
+
+
+                    div {
+                        width: fit-content;
+
+                        button {
+                            outline: none;
+                            width: 30px;
+                            height: 25px;
+                            padding: 4px;
+                            border: 1px solid #000;
+                            cursor: pointer;
+                            background-color: transparent;
+                            color: #000;
+                            border-radius: var(--radius);
+                            padding: 3px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+
+                            svg {
+                                width: 80%;
+                                font-size: 1rem;
+                                transform: rotate(180deg);
+                                transition: all .3s ease-in-out;
+
+                                .--amc-fill {
+                                    fill: var(--colorGrey);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            &-personal {
+                &-info {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+                    align-items: start;
+                    max-width: 800px;
+                    margin-inline: auto;
+
+                    > div:first-child {
+                        display: flex;
+                        flex-direction: column;
+                        width: 100%;
+                        gap: 15px 40px;
+
+                        .photo {
+                            grid-area: photo;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: start;
+                            gap: 5px;
+                            height: 200px;
+
+                            span {
+                                font-size: 1rem;
+                                font-weight: normal;
+                                padding-left: 10px;
+                                color: var(--colorPrimary);
+                                text-transform: capitalize;
+                            }
+
+                            label {
+                                width: 100%;
+                                height: 100%;
+                                cursor: pointer;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                background-color: var(--colorGrey);
+                                border: 1px solid var(--colorGrey);
+                                background-size: contain;
+                                background-repeat: no-repeat;
+                                background-position-x: center;
+
+                                svg {
+                                    width: 20px;
+
+                                    .--amc-fill {
+                                        fill: var(--colorGrey);
+                                    }
+                                }
+                            }
+                        }
+
+                        .Gname {
+                            grid-area: Gname;
+                        }
+
+                        .Fname {
+                            grid-area: Fname;
+                        }
+
+                        .Email {
+                            grid-area: email;
+                        }
+                    }
+
+                    .city {
+                        width: 100%;
+                        display: grid;
+                        grid-template-columns: repeat(1,1fr);
+                        gap: 40px;
+                    }
+                }
+            }
+
+            &-education, &-employment, &-skills, &-languages, &-hobbies {
+                &-info {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: start;
+                    gap: 30px;
+                    width: 100%;
+                    max-width: 800px;
+                    margin-inline: auto;
+
+                    > button {
+                        width: 200px;
+                        margin-inline: auto;
+                    }
+                }
+            }
+
+            &-submit {
+                display: flex;
+                align-items: center;
+                justify-content: center !important;
+                flex-direction: row !important;
+                margin-block: 30px;
+
+                button {
+                    width: 200px;
+                    min-height: 40px;
+
+                    span:last-child {
+                        display: none;
+                    }
+
+                    &._loading {
+                        pointer-events: none;
+
+                        span {
+                            display: none;
+                        }
+
+                        span:last-child {
+                            display: block;
+
+                            svg {
+                                width: 15px;
+                                fill: var(--colorWhite);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.loading{
+    position:relative;
+    width:fit-content;
+    height:100%;
+    margin-inline:auto;
+
+}
+.loading-progress {
+    position: relative;
+    display: block;
+    width: 8rem;
+    height: 8rem;
+    margin: 0 auto 1rem auto;
+}
+
+.loading-progress circle {
+    fill: none;
+    stroke: var(--colorGrey);
+    stroke-width: 0.6rem;
+    transform-origin: 50% 50%;
+    transform: rotate(-90deg);
+}
+
+.loading-progress circle:last-child {
+    stroke: var(--colorBlue2);
+    stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
+    transition: stroke-dasharray 0.05s ease-in-out;
+}
+
+.loading-progress-text {
+    position: absolute;
+    text-align: center;
+    font-weight: bold;
+    //inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+    top: 40%;
+    left: 40%;
+}
+
+
+@media @break-medium {
+    main {
+        section {
+            .form {
+                &-personal {
+                    &-info {
+                        > div:first-child {
+                            display: grid;
+                            grid-template-areas: "photo Gname Fname" "photo email email";
+
+                            .photo {
+                                height: auto;
+                            }
+                        }
+
+                        .city {
+                            grid-template-columns: repeat(2,1fr);
+                        }
+                    }
+                }
+
+                &-education, &-employment, &-skills, &-languages, &-hobbies {
+                    > button {
+                        margin-inline: unset;
+                    }
+                }
+
+                &-submit {
+                    button {
+                        width: 200px;
+                    }
+                }
+            }
+        }
+    }
+}

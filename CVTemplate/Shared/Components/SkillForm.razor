@@ -1,0 +1,34 @@
+﻿@using CVTemplate.Model;
+@foreach (SkillModel skill in SkillList)
+{
+    <div class="skills">
+        <div class="--input">
+            <span>Skill</span>
+            <input spellcheck="false" type="text" @bind-value="skill.Title" />
+        </div>
+        <div class="--input">
+            <span>Level</span>
+            <div class="range">
+                <input spellcheck="false" type="range" size="1" min="0" max="5" step="1" style="outline: none;" value="0" @onchange="(e)=> Change(e,skill.ID)">
+                <label>@skill.RangeName</label>
+            </div>
+        </div>
+
+        <div class="forms-done">
+            <button class="--button _primary _icon" @onclick="()=>RemoveSkill(skill.ID)">
+                <span>
+                    <CVTemplate.Shared.Assets.Delete />
+                </span>
+            </button>
+          @*  <button class="--button _secondary _icon" @onclick="()=>this.StateHasChanged()">
+                <span>
+                    <cvtemplate.shared.assets.correct />
+                </span>
+                <span>
+                    done
+                </span>
+            </button>*@
+        </div>
+    </div>
+}
+

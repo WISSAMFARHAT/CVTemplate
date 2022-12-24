@@ -1,0 +1,103 @@
+﻿@import 'Common/variable.less';
+
+.forms {
+    padding: 20px;
+    border: 1px solid var(--colorSecondary);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 10px;
+    border-radius: var(--radius);
+
+    ._split {
+        display: grid;
+        grid-template-columns: repeat(1,1fr);
+        align-items: stretch;
+        gap: 20px;
+        width: 100%;
+    }
+
+    ._present {
+        > div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            div {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                gap: 3px;
+
+                input {
+                    appearance: auto;
+                }
+            }
+            &::after{
+                content:none;
+            }
+        }
+    }
+
+    &-done {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        width: 100%;
+
+        button {
+            width: fit-content !important;
+            padding: 5px 10px;
+
+        }
+    }
+}
+
+.skills {
+    padding: 20px;
+    border: 1px solid var(--colorSecondary);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 10px;
+    border-radius: var(--radius);
+    .range{
+        display:flex;
+        gap:10px;
+        width:100%;
+        align-items:center;
+        label{
+            font-size:1rem;
+            text-transform:capitalize;
+                
+        }
+        &:after{
+            content:none;
+        }
+    }
+
+    input[type="range"] {
+        outline: none;
+        background: transparent;
+        border: none;
+        appearance: auto;
+        cursor: pointer;
+        height: 22px;
+        margin: 10px 0;
+        width: 80%;
+        border: none;
+        padding-inline:0;
+    }
+}
+
+
+@media @break-medium{
+    .forms {
+        ._split {
+            grid-template-columns: repeat(var(--c),1fr);
+        }
+    }
+}
